@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+
+const DEBUG = true;
+const PRIVATE_KEY = '<YOUR_PRIVATE_KEY>';
+const PARTNER_CODE = '<YOUR_PARTNER_CODE>';
+const USERNAME = '<YOUR_USERNAME>';
+const PASSWORD = '<YOUR_PASSWORD>';
+const FUNCTION_CODE = '<YOUR_FUNCTION_CODE>';
+const CALLBACK_URL = '<YOUR_CALLBACK_URL>';
+const MSISDN = '<CUSTOMER_MSISDN>';
