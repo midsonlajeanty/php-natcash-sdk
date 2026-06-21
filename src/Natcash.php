@@ -35,9 +35,7 @@ final class Natcash extends Core
 
             return PaymentResponse::fromResponse($response);
         } catch (\GuzzleHttp\Exception\ClientException $clientException) {
-            throw new NatcashException(
-                $clientException->getResponse()->getBody()->getContents()
-            );
+            throw new NatcashException($clientException->getResponse()->getBody()->getContents(), $clientException->getCode(), $clientException);
         }
     }
 
@@ -72,9 +70,7 @@ final class Natcash extends Core
 
             return TransactionDetails::fromResponse($response);
         } catch (\GuzzleHttp\Exception\ClientException $clientException) {
-            throw new NatcashException(
-                $clientException->getResponse()->getBody()->getContents()
-            );
+            throw new NatcashException($clientException->getResponse()->getBody()->getContents(), $clientException->getCode(), $clientException);
         }
     }
 }
