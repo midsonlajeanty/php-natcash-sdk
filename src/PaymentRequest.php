@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mds\Natcash;
 
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\InvalidPaymentRequestException;
 
 final class PaymentRequest
 {
@@ -13,42 +13,42 @@ final class PaymentRequest
      *
      * @var string Transaction ID (user to conciliate)
      */
-    private $orderNumber;
+    private string $orderNumber;
 
     /**
      * amount - Amount
      *
      * @var float Total transaction amount.
      */
-    private $amount;
+    private float $amount;
 
     /**
      * msisdn - MSISDN
      *
      * @var ?string User phone number (Ex: 509XXXXXXXXX)
      */
-    private $msisdn;
+    private ?string $msisdn;
 
     /**
      * skipPhoneInput - Skip Phone Input
      *
      * @var bool Skip the phone input on gateway
      */
-    private $skipPhoneInput = false;
+    private bool $skipPhoneInput;
 
     /**
      * timestamp - Timestamp
      *
      * @var int Transaction creation time. (milisecond)
      */
-    private $timestamp;
+    private int $timestamp;
 
     /**
      * requestId - Request ID
      *
      * @var string Request ID
      */
-    private $requestId = '';
+    private string $requestId = '';
 
     public function __construct(string $orderNumber, float $amount, ?int $timestamp = null, ?string $msisdn = null, bool $skipPhoneInput = false)
     {
@@ -58,8 +58,8 @@ final class PaymentRequest
         $this->msisdn = $msisdn;
         $this->skipPhoneInput = $skipPhoneInput;
 
-        if ($this->getSkipPhoneInput() && (is_null($this->getMsisdn()) || empty($this->getMsisdn()))) {
-            throw new NatcashException('MSISDN is required when skipPhoneInput is true');
+        if ($this->getSkipPhoneInput() && (is_null($this->getMsisdn()) || in_array($this->getMsisdn(), ['', '0'], true))) {
+            throw new InvalidPaymentRequestException('MSISDN is required when skipPhoneInput is true');
         }
     }
 
@@ -74,25 +74,25 @@ final class PaymentRequest
     }
 
     /**
-     * fromArray - Create a new PaymentRequest instance from Array
+     * from - Create a new PaymentRequest instance from an array
      *
-     * @param  array<string, mixed>  $payment  Payment Request Array
-     * @return PaymentRequest PaymentRequest Object
+     * @param  array<string, mixed>  $payment  Payment request array
+     * @return PaymentRequest PaymentRequest object
      *
-     * @throws NatcashException
+     * @throws InvalidPaymentRequestException
      */
-    public static function fromArray(array $payment)
+    public static function from(array $payment): self
     {
         if (! isset($payment['orderNumber']) || empty($payment['orderNumber'])) {
-            throw new NatcashException('Missing `orderNumber` in payment request array');
+            throw new InvalidPaymentRequestException('Missing `orderNumber` in payment request array');
         }
 
         if (! isset($payment['amount']) || empty($payment['amount'])) {
-            throw new NatcashException('Missing `amount` in payment request array');
+            throw new InvalidPaymentRequestException('Missing `amount` in payment request array');
         }
 
         if (! is_numeric($payment['amount']) || $payment['amount'] <= 0) {
-            throw new NatcashException('Invalid `amount` in payment request array');
+            throw new InvalidPaymentRequestException('Invalid `amount` in payment request array');
         }
 
         if (! isset($payment['timestamp']) || empty($payment['timestamp'])) {
@@ -100,11 +100,11 @@ final class PaymentRequest
         }
 
         if (isset($payment['msisdn']) && ! (bool) (preg_match('/^509\d{8}$/', $payment['msisdn']))) {
-            throw new NatcashException('Invalid `msisdn` in payment request array');
+            throw new InvalidPaymentRequestException('Invalid `msisdn` in payment request array');
         }
 
         if (isset($payment['skipPhoneInput']) && filter_var($payment['skipPhoneInput'], FILTER_VALIDATE_BOOLEAN) === false) {
-            throw new NatcashException('Invalid `skipPhoneInput` in payment request array');
+            throw new InvalidPaymentRequestException('Invalid `skipPhoneInput` in payment request array');
         }
 
         return new self(
@@ -117,11 +117,39 @@ final class PaymentRequest
     }
 
     /**
+     * fromArray - Deprecated, use from()
+     *
+     * @param  array<string, mixed>  $payment  Payment request array
+     * @return PaymentRequest PaymentRequest object
+     *
+     * @deprecated Use PaymentRequest::from() instead
+     */
+    public static function fromArray(array $payment): \Mds\Natcash\PaymentRequest
+    {
+        @trigger_error('PaymentRequest::fromArray() is deprecated, use PaymentRequest::from() instead.', E_USER_DEPRECATED);
+
+        return self::from($payment);
+    }
+
+    /**
      * getOrderNumber - Get Order Number
      *
      * @return string Transaction ID (user to conciliate)
+     *
+     * @deprecated Use getOrderId() instead
      */
     public function getOrderNumber(): string
+    {
+        @trigger_error('getOrderNumber() is deprecated, use getOrderId() instead.', E_USER_DEPRECATED);
+        return $this->orderNumber;
+    }
+
+    /**
+     * getOrderId - Get Order ID (standardized accessor, alias for getOrderNumber)
+     *
+     * @return string Order Id
+     */
+    public function getOrderId(): string
     {
         return $this->orderNumber;
     }
@@ -189,7 +217,7 @@ final class PaymentRequest
     /**
      * toArray - Convert Payment Object to Array
      *
-     * @return array<string, mixed> Payment as Array
+     * @return array{orderNumber: string, amount: float, timestamp: int, requestId: string, skipPhoneInput: bool, msisdn?: string} Payment as array
      */
     public function toArray(): array
     {

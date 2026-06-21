@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mds\Natcash;
 
 use Mds\Natcash\Core\ResponseStatus;
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\ApiException;
 
 final class PaymentResponse
 {
@@ -14,14 +14,14 @@ final class PaymentResponse
      *
      * @var string Payment URL
      */
-    private $url;
+    private string $url;
 
     /**
      * expiredAt - Expiration Time
      *
      * @var int Expiration Duration (in seconds)
      */
-    private $expiredAt;
+    private int $expiredAt;
 
     public function __construct(string $url, int $expiredAt)
     {
@@ -35,12 +35,12 @@ final class PaymentResponse
      * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
      * @return PaymentResponse PaymentResponse Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res)
+    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
     {
         $respons = ResponseStatus::fromResponse($res);
 
         if (! $respons->isSuccess()) {
-            throw new NatcashException($respons->getMessage());
+            throw new ApiException($respons->getMessage());
         }
 
         $body = $respons->getData();
@@ -62,8 +62,21 @@ final class PaymentResponse
      * getExpiredAt - Get Expiration Time
      *
      * @return int Expiration Duration (in seconds)
+     *
+     * @deprecated Use getExpiresAt() instead
      */
     public function getExpiredAt(): int
+    {
+        @trigger_error('getExpiredAt() is deprecated, use getExpiresAt() instead.', E_USER_DEPRECATED);
+        return $this->expiredAt;
+    }
+
+    /**
+     * getExpiresAt - Get Expiration Time (standardized accessor, alias for getExpiredAt)
+     *
+     * @return int Expiration Duration (in seconds)
+     */
+    public function getExpiresAt(): int
     {
         return $this->expiredAt;
     }

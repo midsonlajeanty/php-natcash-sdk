@@ -4,9 +4,22 @@ All notable changes to this project will be documented in this file.
  
  
 ## [Unreleased]
- 
+
 ### Added
-- Cancel Transaction
+- Typed exception hierarchy: `InvalidConfigException`, `InvalidPaymentRequestException`, `ApiException` (subclasses of `NatcashException`).
+- Standardized accessors `PaymentRequest::getOrderId()`, `PaymentResponse::getExpiresAt()`, `Core::getClient()/setClient()`.
+- Composer scripts `analyse`, `format`, `lint`, `refactor`. CI now runs PHPStan + PHP-CS-Fixer.
+- `Config::from()` and `PaymentRequest::from()` as preferred named constructors; `fromArray()` kept as a deprecated alias.
+
+### Deprecated
+- `PaymentRequest::getOrderNumber()` → use `getOrderId()`.
+- `PaymentResponse::getExpiredAt()` → use `getExpiresAt()`.
+- `Config::fromArray()` → use `Config::from()`.
+- `PaymentRequest::fromArray()` → use `PaymentRequest::from()`.
+
+### Changed
+- `NatcashException` is no longer `final` (serves as the base of the exception hierarchy).
+- Return types completed (`TransactionDetails`, `Config::toArray()`).
 
 ## [1.0.0] - 2026-02-03
 

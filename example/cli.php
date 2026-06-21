@@ -10,16 +10,7 @@ use Mds\Natcash\Config;
 use Mds\Natcash\Natcash;
 use Mds\Natcash\PaymentRequest;
 
-$configArray = [
-    'privateKey' => PRIVATE_KEY,
-    'partnerCode' => PARTNER_CODE,
-    'functionCode' => FUNCTION_CODE,
-    'username' => USERNAME,
-    'password' => PASSWORD,
-    'callbackUrl' => CALLBACK_URL,
-];
-
-$config = Config::fromArray($configArray);
+$config = new Config(PRIVATE_KEY, PARTNER_CODE, FUNCTION_CODE, USERNAME, PASSWORD, CALLBACK_URL);
 
 $orderNumber = uniqid();
 
@@ -28,13 +19,7 @@ $code = '<RESPONSE_CODE_FROM_WEBHOOK>';
 
 print_r("Order Number: $orderNumber" . PHP_EOL);
 
-$paymentArray = [
-    'orderNumber' => $orderNumber,
-    'amount' => 10,
-    'msisdn' => MSISDN,
-];
-
-$payment = PaymentRequest::fromArray($paymentArray);
+$payment = new PaymentRequest($orderNumber, 10, null, MSISDN);
 
 $natcash = new Natcash($config, DEBUG);
 

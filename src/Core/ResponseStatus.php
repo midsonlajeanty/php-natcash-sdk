@@ -48,7 +48,7 @@ final class ResponseStatus
      *
      * @var object Response data
      */
-    private $data;
+    private object $data;
 
     /**
      * @param  int  $status  The numeric status code
@@ -70,7 +70,7 @@ final class ResponseStatus
      * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
      * @return ResponseStatus ResponseStatus Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res)
+    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
     {
         $data = json_decode($res->getBody()->getContents());
 
@@ -111,7 +111,7 @@ final class ResponseStatus
     /**
      * Convert the object to an array for JSON responses.
      *
-     * @return array<string, mixed>
+     * @return array{status: int, code: string, message: string, data: array<string, mixed>}
      */
     public function toArray(): array
     {

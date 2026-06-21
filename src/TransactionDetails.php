@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mds\Natcash;
 
 use Mds\Natcash\Core\ResponseStatus;
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\ApiException;
 
 final class TransactionDetails
 {
@@ -17,38 +17,32 @@ final class TransactionDetails
 
     /**
      * orderId - OrderId provided by your app.
-     *
-     * @var string
      */
-    private $orderId;
+    private string $orderId;
 
     /**
      * transactionId - TransactionId provided by Moncash.
-     *
-     * @var string
      */
-    private $transactionId;
+    private string $transactionId;
 
     /**
      * amount - Amount paid by the payer.
      *
      * @var float Amount paid by the payer.
      */
-    private $amount;
+    private float $amount;
 
     /**
      * payer - Payer's phone number.
-     *
-     * @var string
      */
-    private $payer;
+    private string $payer;
 
     /**
      * status - Status of the payment.
      *
      * @var bool Is Payment Successful
      */
-    private $isSuccessful;
+    private bool $isSuccessful;
 
     /**
      * __construct - Create TransactionDetails Object
@@ -74,12 +68,12 @@ final class TransactionDetails
      * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
      * @return TransactionDetails TransactionDetails Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res)
+    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
     {
         $respons = ResponseStatus::fromResponse($res);
 
         if (! $respons->isSuccess()) {
-            throw new NatcashException($respons->getMessage());
+            throw new ApiException($respons->getMessage());
         }
 
         $body = $respons->getData();
@@ -108,7 +102,7 @@ final class TransactionDetails
      *
      * @return string TransactionId provided by Moncash
      */
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
@@ -118,7 +112,7 @@ final class TransactionDetails
      *
      * @return float Amount paid by the payer.
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
@@ -128,7 +122,7 @@ final class TransactionDetails
      *
      * @return string Payer's phone number
      */
-    public function getPayer()
+    public function getPayer(): string
     {
         return $this->payer;
     }
@@ -138,7 +132,7 @@ final class TransactionDetails
      *
      * @return bool Payment Successful
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return $this->isSuccessful;
     }
@@ -146,9 +140,9 @@ final class TransactionDetails
     /**
      * toArray - Payment Details to Array
      *
-     * @return array<string, mixed> Payment Details
+     * @return array{orderId: string, transactionId: string, amount: float, payer: string, isSuccessful: bool} Transaction details
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'orderId' => $this->orderId,

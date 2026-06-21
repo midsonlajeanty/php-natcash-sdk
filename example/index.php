@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 require __DIR__ . '/constant.php';
@@ -13,25 +15,11 @@ if (isset($_POST['create_payment'])) {
     $orderId = $_POST['order_id'];
     $amount = $_POST['amount'];
 
-    $configArray = [
-        'privateKey' => PRIVATE_KEY,
-        'partnerCode' => PARTNER_CODE,
-        'functionCode' => FUNCTION_CODE,
-        'username' => USERNAME,
-        'password' => PASSWORD,
-        'callbackUrl' => CALLBACK_URL,
-    ];
-
-    $config = Config::fromArray($configArray);
+    $config = new Config(PRIVATE_KEY, PARTNER_CODE, FUNCTION_CODE, USERNAME, PASSWORD, CALLBACK_URL);
 
     $orderNumber = uniqid();
 
-    $paymentArray = [
-        'orderNumber' => $orderNumber,
-        'amount' => 10,
-        'msisdn' => MSISDN,
-    ];
-    $payment = PaymentRequest::fromArray($paymentArray);
+    $payment = new PaymentRequest($orderNumber, 10, null, MSISDN);
 
     // Create Natcash Instance
     $natcash = new Natcash($config, DEBUG);
@@ -57,7 +45,7 @@ if (isset($_POST['create_payment'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Moncash SDK - Demo</title>
+    <title>Natcash SDK - Demo</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 

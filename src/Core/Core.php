@@ -19,14 +19,14 @@ abstract class Core
      *
      * @var Config Natcash Config Object
      */
-    private $config;
+    private \Mds\Natcash\Config $config;
 
     /**
      * client - API Client
      *
      * @var ClientInterface - Guzzle Client
      */
-    private $client;
+    private \GuzzleHttp\ClientInterface $client;
 
     /**
      * __construct - Create Core Instance
@@ -44,21 +44,21 @@ abstract class Core
     }
 
     /**
-     * getclient - Get Guzzle Client
+     * getClient - Get Guzzle Client
      *
      * @return ClientInterface Guzzle Client
      */
-    final public function getclient(): ClientInterface
+    final public function getClient(): ClientInterface
     {
         return $this->client;
     }
 
     /**
-     * setclient - Set Guzzle Client
+     * setClient - Set Guzzle Client
      *
      * @param  ClientInterface  $client  Guzzle Client
      */
-    final public function setclient(ClientInterface $client): void
+    final public function setClient(ClientInterface $client): void
     {
         $this->client = $client;
     }
@@ -173,7 +173,7 @@ abstract class Core
             'password' => $this->config->getPassword(),
             'timestamp' => $payment->getTimestamp(),
             'requestId' => $payment->getRequestId(),
-            'orderNumber' => $payment->getOrderNumber(),
+            'orderNumber' => $payment->getOrderId(),
             'amount' => $payment->getAmount(),
         ];
 

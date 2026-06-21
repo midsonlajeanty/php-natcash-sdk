@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 require __DIR__ . '/constant.php';
@@ -13,16 +15,7 @@ if (isset($_GET['orderNumber'])) {
     $orderNumber = $_GET['orderNumber'];
     $signature = $_GET['signature'];
 
-    $configArray = [
-        'privateKey' => PRIVATE_KEY,
-        'partnerCode' => PARTNER_CODE,
-        'functionCode' => FUNCTION_CODE,
-        'username' => USERNAME,
-        'password' => PASSWORD,
-        'callbackUrl' => CALLBACK_URL,
-    ];
-
-    $config = Config::fromArray($configArray);
+    $config = new Config(PRIVATE_KEY, PARTNER_CODE, FUNCTION_CODE, USERNAME, PASSWORD, CALLBACK_URL);
 
     // Create Natcash Instance
     $natcash = new Natcash($config, DEBUG);
@@ -33,7 +26,7 @@ if (isset($_GET['orderNumber'])) {
         $isValid = $natcash->verifyPayloadSignature($orderNumber, $code, $signature);
 
         if ($isValid) {
-            // Make Payment with payment request and Amount
+            // Retrieve transaction details for the given order
             $details = $natcash->getTransactionDetailsByOrderId($orderNumber);
         }
     } catch (Mds\Natcash\Exception\NatcashException $e) {
@@ -42,9 +35,10 @@ if (isset($_GET['orderNumber'])) {
         $message = 'General Exception: ' . $e->getMessage() . PHP_EOL;
     }
 } else {
-    // redirect to hone
+    // redirect to home
     header('Location: /');
     http_response_code(302);
+    exit;
 }
 
 ?>
@@ -57,7 +51,7 @@ if (isset($_GET['orderNumber'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Moncash SDK - Demo</title>
+    <title>Natcash SDK - Demo</title>
 
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -70,7 +64,7 @@ if (isset($_GET['orderNumber'])) {
 <body>
     <div class="container px-3 my-5 clearfix">
         <!-- Shopping cart table -->
-        <?php if ($isValid && isset($details)) { ?>
+        <?php if (($isValid ?? false) && isset($details)) { ?>
             <div class="alert alert-success">
                 Transaction Success
             </div>

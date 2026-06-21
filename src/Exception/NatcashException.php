@@ -6,4 +6,4 @@ namespace Mds\Natcash\Exception;
 
 use Exception;
 
-final class NatcashException extends Exception {}
+class NatcashException extends Exception {}

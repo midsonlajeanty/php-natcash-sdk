@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+// Example credentials file.
+// Copy this file to `constant.php` and fill in your real Natcash credentials.
+// `constant.php` is gitignored, so your real credentials are never committed.
 
 const DEBUG = true;
 const PRIVATE_KEY = '<YOUR_PRIVATE_KEY>';

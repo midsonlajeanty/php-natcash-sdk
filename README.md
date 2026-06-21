@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://warehouse.canal-overseas.com/content/0001/44/0ac56c893f8fc943f6b3e55f236a0697a76ef750.png" width="200" alt="Natcash Logo">
+    <img src="https://testmerchantpay.natcom.com.ht/merchant/_next/static/images/logo-1689408a84fe0c46831e7ae2d19fe04c.png" width="200" alt="Natcash Logo">
 </p>
 
 <p align="center">
@@ -41,31 +41,18 @@ use Mds\Natcash\Natcash;
 use Mds\Natcash\PaymentRequest;
 
 // Natcash Merchant Credentials
-$configArray = [
-    'privateKey' => PRIVATE_KEY,
-    'partnerCode' => PARTNER_CODE,
-    'functionCode' => FUNCTION_CODE,
-    'username' => USERNAME,
-    'password' => PASSWORD,
-    'callbackUrl' => CALLBACK_URL,
-];
-
-$config = Config::fromArray($configArray);
+$config = new Config(PRIVATE_KEY, PARTNER_CODE, FUNCTION_CODE, USERNAME, PASSWORD, CALLBACK_URL);
 
 // Payment Request
-$paymentArray = [
-    'orderNumber' => 'ORDER-001',
-    'amount' => 10,
-];
-$payment = PaymentRequest::fromArray($paymentArray);
+$payment = new PaymentRequest('ORDER-001', 10);
 
 // Init SDK with config
 $natcash = new Natcash($config, DEBUG);
 
-// Make Payment with payment request and Amount
+// Make Payment with payment request
 $response = $natcash->makePayment($payment);
 
-// Get Payment URL  (Natcash Checkout)
+// Get Payment URL (Natcash Checkout)
 $response->getRedirect();
 ```
 
@@ -74,19 +61,9 @@ $response->getRedirect();
 ```php
 use Mds\Natcash\Config;
 use Mds\Natcash\Natcash;
-use Mds\Natcash\PaymentRequest;
 
 // Natcash Merchant Credentials
-$configArray = [
-    'privateKey' => PRIVATE_KEY,
-    'partnerCode' => PARTNER_CODE,
-    'functionCode' => FUNCTION_CODE,
-    'username' => USERNAME,
-    'password' => PASSWORD,
-    'callbackUrl' => CALLBACK_URL,
-];
-
-$config = Config::fromArray($configArray);
+$config = new Config(PRIVATE_KEY, PARTNER_CODE, FUNCTION_CODE, USERNAME, PASSWORD, CALLBACK_URL);
 
 // Init SDK with config
 $natcash = new Natcash($config, DEBUG);
@@ -104,6 +81,22 @@ if ($isValid) {
     print_r("Signature is invalid." . PHP_EOL);
 }
 ```
+
+## Common conventions (MonCash & NatCash)
+
+The MonCash and NatCash SDKs share the same pattern. If you know one, you know the other:
+
+| Step | Class / method |
+|---|---|
+| Configuration | `Config::from([...])` |
+| Instantiation | `new <Gateway>($config, $debug = true)` |
+| Request | `PaymentRequest::from([...])` |
+| Payment | `makePayment(PaymentRequest): PaymentResponse` |
+| Redirect | `$response->getRedirect()` |
+| Details | `getTransactionDetailsByOrderId($orderId): TransactionDetails` |
+| Result | `$details->getOrderId()`, `getTransactionId()`, `getAmount()`, `getPayer()`, `isSuccessful()` |
+
+NatCash-specific features: HMAC signatures (`verifyPayloadSignature()`), `getMsisdn()`, `skipPhoneInput`.
 
 ## Contributing
 

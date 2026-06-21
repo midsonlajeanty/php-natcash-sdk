@@ -8,3 +8,5 @@ Thumbs.db
 .phpunit.result.cache
 .php-cs-fixer.cache
 .env
+/composer.lock
+/example/constant.php

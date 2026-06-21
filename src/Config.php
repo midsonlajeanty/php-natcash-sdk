@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mds\Natcash;
 
 use Mds\Natcash\Core\Constants;
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\InvalidConfigException;
 
 /**
  * Payment Configuration
@@ -19,56 +19,56 @@ class Config
      *
      * @var string Private Key provided by Natcash
      */
-    private $privateKey;
+    private string $privateKey;
 
     /**
      * partnerCode - Partner Code
      *
      * @var string Third-Party Partner Code
      */
-    private $partnerCode;
+    private string $partnerCode;
 
     /**
      * functionCode - Function Code
      *
      * @var string Third-Party Function Code
      */
-    private $functionCode;
+    private string $functionCode;
 
     /**
      * username - Username
      *
      * @var string Third-Party Username
      */
-    private $username;
+    private string $username;
 
     /**
      * password - Password
      *
      * @var string Third-Party Password
      */
-    private $password;
+    private string $password;
 
     /**
      * callbackUrl - Callback URL
      *
      * @var string Third-Party Callback URL
      */
-    private $callbackUrl;
+    private string $callbackUrl;
 
     /**
      * enableFee - Enable Fee
      *
      * @var bool Enable Fee
      */
-    private $enableFee = true;
+    private bool $enableFee;
 
     /**
      * language - Language
      *
      * @var string Language (ht/fr/en)
      */
-    private $language = 'ht';
+    private string $language;
 
     /**
      * __construct - Create a new Config instance
@@ -101,41 +101,41 @@ class Config
     }
 
     /**
-     * fromArray - Create a new Config instance from Configuration Array
+     * from - Create a new Config instance from a configuration array
      *
-     * @param  array<string, mixed>  $config  Natcash Configuration Array
-     * @return Config Natcash Config Object
+     * @param  array<string, mixed>  $config  Natcash configuration array
+     * @return Config Natcash config object
      *
-     * @throws NatcashException
+     * @throws InvalidConfigException
      */
-    public static function fromArray(array $config)
+    public static function from(array $config): self
     {
         if (! isset($config['privateKey']) || empty($config['privateKey'])) {
-            throw new NatcashException('Missing `privateKey` in configuration array');
+            throw new InvalidConfigException('Missing `privateKey` in configuration array');
         }
 
         if (! isset($config['partnerCode']) || empty($config['partnerCode'])) {
-            throw new NatcashException('Missing `partnerCode` in configuration array');
+            throw new InvalidConfigException('Missing `partnerCode` in configuration array');
         }
 
         if (! isset($config['functionCode']) || empty($config['functionCode'])) {
-            throw new NatcashException('Missing `functionCode` in configuration array');
+            throw new InvalidConfigException('Missing `functionCode` in configuration array');
         }
 
         if (! isset($config['username']) || empty($config['username'])) {
-            throw new NatcashException('Missing `username` in configuration array');
+            throw new InvalidConfigException('Missing `username` in configuration array');
         }
 
         if (! isset($config['password']) || empty($config['password'])) {
-            throw new NatcashException('Missing `password` in configuration array');
+            throw new InvalidConfigException('Missing `password` in configuration array');
         }
 
         if (! isset($config['callbackUrl']) || empty($config['callbackUrl'])) {
-            throw new NatcashException('Missing `callbackUrl` in configuration array');
+            throw new InvalidConfigException('Missing `callbackUrl` in configuration array');
         }
 
         if (! filter_var($config['callbackUrl'], FILTER_VALIDATE_URL)) {
-            throw new NatcashException('Invalid `callbackUrl` in configuration array');
+            throw new InvalidConfigException('Invalid `callbackUrl` in configuration array');
         }
 
         if (! isset($config['enableFee'])) {
@@ -143,7 +143,7 @@ class Config
         }
 
         if (! filter_var($config['enableFee'], FILTER_VALIDATE_BOOLEAN) && ! is_bool($config['enableFee'])) {
-            throw new NatcashException('Invalid `enableFee` in configuration array');
+            throw new InvalidConfigException('Invalid `enableFee` in configuration array');
         }
 
         if (! isset($config['language'])) {
@@ -151,7 +151,7 @@ class Config
         }
 
         if (! in_array($config['language'], Constants::SUPPORTED_LANGUAGES)) {
-            throw new NatcashException('Invalid `language` in configuration array');
+            throw new InvalidConfigException('Invalid `language` in configuration array');
         }
 
         return new self(
@@ -164,6 +164,21 @@ class Config
             $config['enableFee'],
             $config['language']
         );
+    }
+
+    /**
+     * fromArray - Deprecated, use from()
+     *
+     * @param  array<string, mixed>  $config  Natcash configuration array
+     * @return Config Natcash config object
+     *
+     * @deprecated Use Config::from() instead
+     */
+    public static function fromArray(array $config): \Mds\Natcash\Config
+    {
+        @trigger_error('Config::fromArray() is deprecated, use Config::from() instead.', E_USER_DEPRECATED);
+
+        return self::from($config);
     }
 
     /**
@@ -249,9 +264,9 @@ class Config
     /**
      * toArray - Convert Config Object to Array
      *
-     * @return array<string, mixed> Config as Array
+     * @return array{partnerCode: string, username: string, password: string, callbackUrl: string, enableFee: bool, language: string} Config as array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'partnerCode' => $this->partnerCode,

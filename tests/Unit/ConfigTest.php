@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Mds\Natcash\Config;
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\InvalidConfigException;
 
 test('config object creation', function (): void {
     $config = new Config(
@@ -55,7 +55,7 @@ test('config from array missing key throws exception', function (): void {
     ];
 
     Config::fromArray($configArray);
-})->throws(NatcashException::class);
+})->throws(InvalidConfigException::class);
 
 test('config from array invalid callback url throws exception', function (): void {
     $configArray = [
@@ -68,4 +68,4 @@ test('config from array invalid callback url throws exception', function (): voi
     ];
 
     Config::fromArray($configArray);
-})->throws(NatcashException::class);
+})->throws(InvalidConfigException::class);

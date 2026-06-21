@@ -18,7 +18,7 @@ test('makePayment success', function (): void {
     $mockClient = Mockery::mock(ClientInterface::class);
     $mockClient->shouldReceive('request')
         ->once()
-        ->with('POST', Constants::PAYMENT_URI, Mockery::on(fn($args) => isset($args['json']['signature'])))
+        ->with('POST', Constants::PAYMENT_URI, Mockery::on(fn($args): bool => isset($args['json']['signature'])))
         ->andReturn(new Response(200, [], json_encode([
             'status' => 0,
             'code' => 'SUCCESS',
@@ -28,7 +28,7 @@ test('makePayment success', function (): void {
         ])));
 
     $natcash = new Natcash($config, true);
-    $natcash->setclient($mockClient);
+    $natcash->setClient($mockClient);
 
     $response = $natcash->makePayment($paymentRequest);
 
@@ -57,7 +57,7 @@ test('getTransactionDetailsByOrderId success', function (): void {
         ])));
 
     $natcash = new Natcash($config, true);
-    $natcash->setclient($mockClient);
+    $natcash->setClient($mockClient);
 
     $details = $natcash->getTransactionDetailsByOrderId('order123');
 

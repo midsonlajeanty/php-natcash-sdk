@@ -29,7 +29,7 @@ final class Natcash extends Core
     public function makePayment(PaymentRequest $paymentRequest): PaymentResponse
     {
         try {
-            $response = $this->getclient()->request('POST', Constants::PAYMENT_URI, [
+            $response = $this->getClient()->request('POST', Constants::PAYMENT_URI, [
                 'json' => $this->getPaymentDataArray($paymentRequest),
             ]);
 
@@ -66,7 +66,7 @@ final class Natcash extends Core
     public function getTransactionDetailsByOrderId(string $orderId, ?string $requestId = null): TransactionDetails
     {
         try {
-            $response = $this->getclient()->request('POST', Constants::TRANSACTION_DETAILS_URI, [
+            $response = $this->getClient()->request('POST', Constants::TRANSACTION_DETAILS_URI, [
                 'json' => $this->getTransactionDataArray($orderId, $requestId),
             ]);
 

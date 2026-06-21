@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use GuzzleHttp\Psr7\Response;
-use Mds\Natcash\Exception\NatcashException;
+use Mds\Natcash\Exception\ApiException;
 use Mds\Natcash\TransactionDetails;
 
 test('transaction details object creation', function (): void {
@@ -53,4 +53,4 @@ test('transaction details from failed response throws exception', function (): v
     ]));
 
     TransactionDetails::fromResponse($response);
-})->throws(NatcashException::class);
+})->throws(ApiException::class);
