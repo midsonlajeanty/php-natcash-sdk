@@ -16,7 +16,7 @@ use Mds\Natcash\Exception\NatcashException;
  * @license MIT
  * @author Mds <midsonlajeanty@proton.me>
  */
-final class Natcash extends Core
+final class Natcash extends Core implements NatcashInterface
 {
     /**
      * makePayment - Process Payment
