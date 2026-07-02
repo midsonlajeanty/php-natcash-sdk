@@ -98,6 +98,37 @@ The MonCash and NatCash SDKs share the same pattern. If you know one, you know t
 
 NatCash-specific features: HMAC signatures (`verifyPayloadSignature()`), `getMsisdn()`, `skipPhoneInput`.
 
+## Testing
+
+The `Natcash` facade is `final` (it is the only class that performs I/O), so it cannot be mocked directly. Instead, type-hint your application code against `NatcashInterface` and mock the interface:
+
+```php
+use Mds\Natcash\NatcashInterface;
+
+final class CheckoutService
+{
+    public function __construct(private NatcashInterface $gateway) {}
+
+    public function pay(PaymentRequest $request): PaymentResponse
+    {
+        return $this->gateway->makePayment($request);
+    }
+}
+
+// Production: inject the real facade.
+new CheckoutService(new Natcash($config));
+```
+
+```php
+// Test: mock the interface, no need to hit the network.
+$gateway = Mockery::mock(NatcashInterface::class);
+$gateway->shouldReceive('makePayment')->once()->andReturn($fakeResponse);
+
+$service = new CheckoutService($gateway);
+```
+
+Value objects (`Config`, `PaymentRequest`, `PaymentResponse`, `TransactionDetails`) are also `final` — don't mock them, just construct them with test data.
+
 ## Contributing
 
 You have a lot of options to contribute to this project ! You can :
