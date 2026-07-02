@@ -9,10 +9,8 @@ use Mds\Natcash\Exception\InvalidConfigException;
 
 /**
  * Payment Configuration
- *
- * @final
  */
-class Config
+final class Config
 {
     /**
      * privateKey - Private Key

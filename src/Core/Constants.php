@@ -6,10 +6,8 @@ namespace Mds\Natcash\Core;
 
 /**
  * Constants
- *
- * @final
  */
-class Constants
+final class Constants
 {
     public const LIVE_URL = 'https://merchantpay.natcom.com.ht/api/online-payment/';
 
