@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 - Standardized accessors `PaymentRequest::getOrderId()`, `PaymentResponse::getExpiresAt()`, `Core::getClient()/setClient()`.
 - Composer scripts `analyse`, `format`, `lint`, `refactor`. CI now runs PHPStan + PHP-CS-Fixer.
 - `Config::from()` and `PaymentRequest::from()` as preferred named constructors; `fromArray()` kept as a deprecated alias.
-- `NatcashInterface`, the public contract implemented by the `Natcash` facade, so consumers can type-hint it and mock the gateway in tests.
+- `NatcashInterface`, the public contract implemented by the `Natcash` gateway, so consumers can type-hint it and mock it in tests.
 
 ### Deprecated
 - `PaymentRequest::getOrderNumber()` → use `getOrderId()`.
@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - `NatcashException` is no longer `final` (serves as the base of the exception hierarchy).
 - Return types completed (`TransactionDetails`, `Config::toArray()`).
-- `Config` and `Constants` are now `final` (previously documented `@final` only), matching the already-final value objects and facade. Mock `NatcashInterface` instead of the facade; construct value objects directly.
+- `Config` and `Constants` are now `final` (previously documented `@final` only), matching the already-final value objects and gateway. Mock `NatcashInterface` instead of the gateway; construct value objects directly.
 
 ## [1.0.0] - 2026-02-03
 

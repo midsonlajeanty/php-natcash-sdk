@@ -100,7 +100,7 @@ NatCash-specific features: HMAC signatures (`verifyPayloadSignature()`), `getMsi
 
 ## Testing
 
-The `Natcash` facade is `final` (it is the only class that performs I/O), so it cannot be mocked directly. Instead, type-hint your application code against `NatcashInterface` and mock the interface:
+The `Natcash` gateway is `final` (it is the only class that performs I/O), so it cannot be mocked directly. Instead, type-hint your application code against `NatcashInterface` and mock the interface:
 
 ```php
 use Mds\Natcash\NatcashInterface;
@@ -115,7 +115,7 @@ final class CheckoutService
     }
 }
 
-// Production: inject the real facade.
+// Production: inject the real gateway.
 new CheckoutService(new Natcash($config));
 ```
 
