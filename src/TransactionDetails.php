@@ -6,6 +6,7 @@ namespace Mds\Natcash;
 
 use Mds\Natcash\Core\ResponseStatus;
 use Mds\Natcash\Exception\ApiException;
+use Psr\Http\Message\ResponseInterface;
 
 final class TransactionDetails
 {
@@ -65,10 +66,10 @@ final class TransactionDetails
     /**
      * fromResponse - Create TransactionDetails Object from Response
      *
-     * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
+     * @param  ResponseInterface  $res  Response from Moncash
      * @return TransactionDetails TransactionDetails Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
+    public static function fromResponse(ResponseInterface $res): self
     {
         $respons = ResponseStatus::fromResponse($res);
 

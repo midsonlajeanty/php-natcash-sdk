@@ -19,14 +19,14 @@ abstract class Core
      *
      * @var Config Natcash Config Object
      */
-    private \Mds\Natcash\Config $config;
+    private Config $config;
 
     /**
      * client - API Client
      *
      * @var ClientInterface - Guzzle Client
      */
-    private \GuzzleHttp\ClientInterface $client;
+    private ClientInterface $client;
 
     /**
      * __construct - Create Core Instance
@@ -109,7 +109,7 @@ abstract class Core
      * getTransactionDataArray - Get Transaction Data Array
      *
      * @param  string  $orderNumber  Order Number
-     * @param  int $code  Response Code { 1: Success, -3: Unknown , -1: Failed }
+     * @param  int  $code  Response Code { 1: Success, -3: Unknown , -1: Failed }
      * @param  string  $signature  Signature to validate
      * @return bool Signature Validity
      */
@@ -127,7 +127,7 @@ abstract class Core
      */
     private function generateAccessKey(string $requestId): string
     {
-        return hash(Constants::ACCESS_KEY_ALGORITHM, $this->config->getPrivateKey() . $requestId);
+        return hash(Constants::ACCESS_KEY_ALGORITHM, $this->config->getPrivateKey().$requestId);
     }
 
     /**
@@ -137,7 +137,7 @@ abstract class Core
      */
     private function generatePayloadValidationAccessKey(string $orderNumber): string
     {
-        return hash(Constants::ACCESS_KEY_ALGORITHM, $this->config->getFunctionCode() . $orderNumber);
+        return hash(Constants::ACCESS_KEY_ALGORITHM, $this->config->getFunctionCode().$orderNumber);
     }
 
     /**

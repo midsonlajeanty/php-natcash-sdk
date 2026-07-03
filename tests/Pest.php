@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Tests\Laravel\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,7 @@ declare(strict_types=1);
 |
 */
 
-// uses(Tests\TestCase::class)->in('Feature');
+uses(TestCase::class)->in('Laravel');
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ declare(strict_types=1);
 expect()->extend(
     'toBeOne',
     // @phpstan-ignore-next-line
-    fn() => $this->toBe(1)
+    fn () => $this->toBe(1)
 );
 
 /*

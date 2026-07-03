@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mds\Natcash;
 
+use GuzzleHttp\Exception\ClientException;
 use Mds\Natcash\Core\Constants;
 use Mds\Natcash\Core\Core;
 use Mds\Natcash\Exception\NatcashException;
@@ -34,7 +35,7 @@ final class Natcash extends Core implements NatcashInterface
             ]);
 
             return PaymentResponse::fromResponse($response);
-        } catch (\GuzzleHttp\Exception\ClientException $clientException) {
+        } catch (ClientException $clientException) {
             throw new NatcashException($clientException->getResponse()->getBody()->getContents(), $clientException->getCode(), $clientException);
         }
     }
@@ -43,7 +44,7 @@ final class Natcash extends Core implements NatcashInterface
      * verifyPayloadSignature - Verify webhook Payload Signature
      *
      * @param  string  $orderId  Order Id
-     * @param  int $code  Response Code { 1: Success, -3: Unknown , -1: Failed }
+     * @param  int  $code  Response Code { 1: Success, -3: Unknown , -1: Failed }
      * @param  string  $signature  Signature to validate
      * @return bool Signature Validity
      */
@@ -69,7 +70,7 @@ final class Natcash extends Core implements NatcashInterface
             ]);
 
             return TransactionDetails::fromResponse($response);
-        } catch (\GuzzleHttp\Exception\ClientException $clientException) {
+        } catch (ClientException $clientException) {
             throw new NatcashException($clientException->getResponse()->getBody()->getContents(), $clientException->getCode(), $clientException);
         }
     }

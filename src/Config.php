@@ -172,7 +172,7 @@ final class Config
      *
      * @deprecated Use Config::from() instead
      */
-    public static function fromArray(array $config): \Mds\Natcash\Config
+    public static function fromArray(array $config): Config
     {
         @trigger_error('Config::fromArray() is deprecated, use Config::from() instead.', E_USER_DEPRECATED);
 

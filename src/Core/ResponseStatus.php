@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mds\Natcash\Core;
 
+use Psr\Http\Message\ResponseInterface;
+
 final class ResponseStatus
 {
     public const MSG_SUCCESS = 0;
@@ -67,10 +69,10 @@ final class ResponseStatus
     /**
      * fromResponse - Create ResponseStatus Object from Response
      *
-     * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
+     * @param  ResponseInterface  $res  Response from Moncash
      * @return ResponseStatus ResponseStatus Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
+    public static function fromResponse(ResponseInterface $res): self
     {
         $data = json_decode($res->getBody()->getContents());
 

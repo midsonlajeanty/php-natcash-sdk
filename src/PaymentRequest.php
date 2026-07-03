@@ -124,7 +124,7 @@ final class PaymentRequest
      *
      * @deprecated Use PaymentRequest::from() instead
      */
-    public static function fromArray(array $payment): \Mds\Natcash\PaymentRequest
+    public static function fromArray(array $payment): PaymentRequest
     {
         @trigger_error('PaymentRequest::fromArray() is deprecated, use PaymentRequest::from() instead.', E_USER_DEPRECATED);
 
@@ -141,6 +141,7 @@ final class PaymentRequest
     public function getOrderNumber(): string
     {
         @trigger_error('getOrderNumber() is deprecated, use getOrderId() instead.', E_USER_DEPRECATED);
+
         return $this->orderNumber;
     }
 

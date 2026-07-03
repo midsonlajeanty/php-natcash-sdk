@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__).'/vendor/autoload.php';
 
-require __DIR__ . '/constant.php';
+require __DIR__.'/constant.php';
 
 use Mds\Natcash\Config;
+use Mds\Natcash\Exception\NatcashException;
 use Mds\Natcash\Natcash;
 use Mds\Natcash\PaymentRequest;
 
@@ -28,10 +29,10 @@ if (isset($_POST['create_payment'])) {
         // Make Payment with payment request and Amount
         $response = $natcash->makePayment($payment);
 
-    } catch (Mds\Natcash\Exception\NatcashException $e) {
-        echo 'Natcash Exception: ' . $e->getMessage() . PHP_EOL;
+    } catch (NatcashException $e) {
+        echo 'Natcash Exception: '.$e->getMessage().PHP_EOL;
     } catch (Exception $e) {
-        echo 'General Exception: ' . $e->getMessage() . PHP_EOL;
+        echo 'General Exception: '.$e->getMessage().PHP_EOL;
     }
 }
 

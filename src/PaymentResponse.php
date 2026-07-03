@@ -6,6 +6,7 @@ namespace Mds\Natcash;
 
 use Mds\Natcash\Core\ResponseStatus;
 use Mds\Natcash\Exception\ApiException;
+use Psr\Http\Message\ResponseInterface;
 
 final class PaymentResponse
 {
@@ -32,10 +33,10 @@ final class PaymentResponse
     /**
      * fromResponse - Create PaymentResponse Object from Response
      *
-     * @param  \Psr\Http\Message\ResponseInterface  $res  Response from Moncash
+     * @param  ResponseInterface  $res  Response from Moncash
      * @return PaymentResponse PaymentResponse Object
      */
-    public static function fromResponse(\Psr\Http\Message\ResponseInterface $res): self
+    public static function fromResponse(ResponseInterface $res): self
     {
         $respons = ResponseStatus::fromResponse($res);
 
@@ -68,6 +69,7 @@ final class PaymentResponse
     public function getExpiredAt(): int
     {
         @trigger_error('getExpiredAt() is deprecated, use getExpiresAt() instead.', E_USER_DEPRECATED);
+
         return $this->expiredAt;
     }
 

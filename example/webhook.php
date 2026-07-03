@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__).'/vendor/autoload.php';
 
-require __DIR__ . '/constant.php';
+require __DIR__.'/constant.php';
 
 use Mds\Natcash\Config;
+use Mds\Natcash\Exception\NatcashException;
 use Mds\Natcash\Natcash;
 
 if (isset($_GET['orderNumber'])) {
@@ -29,10 +30,10 @@ if (isset($_GET['orderNumber'])) {
             // Retrieve transaction details for the given order
             $details = $natcash->getTransactionDetailsByOrderId($orderNumber);
         }
-    } catch (Mds\Natcash\Exception\NatcashException $e) {
-        $message = 'Natcash Exception: ' . $e->getMessage() . PHP_EOL;
+    } catch (NatcashException $e) {
+        $message = 'Natcash Exception: '.$e->getMessage().PHP_EOL;
     } catch (Exception $e) {
-        $message = 'General Exception: ' . $e->getMessage() . PHP_EOL;
+        $message = 'General Exception: '.$e->getMessage().PHP_EOL;
     }
 } else {
     // redirect to home
