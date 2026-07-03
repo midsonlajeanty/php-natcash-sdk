@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
  
 ## [Unreleased]
 
+## [2.0.0] - 2026-07-03
+
 ### Added
 - Typed exception hierarchy: `InvalidConfigException`, `InvalidPaymentRequestException`, `ApiException` (subclasses of `NatcashException`).
 - Standardized accessors `PaymentRequest::getOrderId()`, `PaymentResponse::getExpiresAt()`, `Core::getClient()/setClient()`.
