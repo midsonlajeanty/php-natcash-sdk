@@ -98,6 +98,49 @@ The MonCash and NatCash SDKs share the same pattern. If you know one, you know t
 
 NatCash-specific features: HMAC signatures (`verifyPayloadSignature()`), `getMsisdn()`, `skipPhoneInput`.
 
+## Laravel
+
+The package auto-registers a service provider and a facade (Laravel 9 to 13). Publish the config file:
+
+```bash
+php artisan vendor:publish --tag=natcash-config
+```
+
+Set your credentials in `.env` (they are loaded automatically):
+
+```dotenv
+NATCASH_PRIVATE_KEY=your-private-key
+NATCASH_PARTNER_CODE=your-partner-code
+NATCASH_FUNCTION_CODE=your-function-code
+NATCASH_USERNAME=your-username
+NATCASH_PASSWORD=your-password
+NATCASH_CALLBACK_URL=https://your-app.test/natcash/callback
+NATCASH_ENABLE_FEE=true
+NATCASH_LANGUAGE=ht
+# Sandbox gateway. Defaults to false (live); set true in local environments.
+NATCASH_DEBUG=true
+```
+
+Then use the facade, or inject `NatcashInterface` (both resolve the same configured singleton):
+
+```php
+use Mds\Natcash\Laravel\Facades\Natcash;
+use Mds\Natcash\PaymentRequest;
+
+$response = Natcash::makePayment(new PaymentRequest('order-1', 250, null, 'msisdn'));
+
+return redirect($response->getRedirect());
+```
+
+```php
+use Mds\Natcash\NatcashInterface;
+
+final class CheckoutController
+{
+    public function __construct(private NatcashInterface $natcash) {}
+}
+```
+
 ## Testing
 
 The `Natcash` gateway is `final` (it is the only class that performs I/O), so it cannot be mocked directly. Instead, type-hint your application code against `NatcashInterface` and mock the interface:
