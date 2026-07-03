@@ -4,7 +4,7 @@
 
 <p align="center">
     <a href="https://github.com/midsonlajeanty/php-natcash-sdk/actions">
-        <img src="https://github.com/midsonlajeanty/php-natcash-sdk/actions/workflows/tests%20.yml/badge.svg" alt="Build Status">
+        <img src="https://github.com/midsonlajeanty/php-natcash-sdk/actions/workflows/tests.yml/badge.svg" alt="Build Status">
     </a>
     <a href="https://packagist.org/packages/midsonlajeanty/php-natcash-sdk">
         <img src="https://img.shields.io/packagist/dt/midsonlajeanty/php-natcash-sdk" alt="Total Downloads">
