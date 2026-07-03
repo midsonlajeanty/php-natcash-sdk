@@ -27,9 +27,16 @@ Minimum SDK to process payment with Natcom Natcash Payment Gateway
 
 ## Getting started
 
+Requires **PHP 8.2+**.
+
 ```
-composer require midsonlajeanty/php-natcash-sdk 
+composer require midsonlajeanty/php-natcash-sdk
 ```
+
+> **On PHP < 8.2?** Pin the 1.x line, which supports PHP 7.4+:
+> ```
+> composer require "midsonlajeanty/php-natcash-sdk:^1.0"
+> ```
 
 ## Usage
 

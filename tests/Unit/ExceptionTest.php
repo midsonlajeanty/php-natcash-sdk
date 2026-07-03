@@ -17,7 +17,7 @@ it('base NatcashException is still catchable for subclasses', function (): void 
     $caught = false;
     try {
         throw new InvalidConfigException('boom');
-    } catch (NatcashException $e) {
+    } catch (NatcashException) {
         $caught = true;
     }
     expect($caught)->toBeTrue();

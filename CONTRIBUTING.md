@@ -12,7 +12,7 @@ For security vulnerabilities, see [SECURITY.md](.github/SECURITY.md); **never** 
 
 ## Development Setup
 
-Requires PHP 7.4+ and Composer 2.
+Requires PHP 8.2+ and Composer 2.
 
 ```bash
 git clone https://github.com/midsonlajeanty/php-natcash-sdk.git

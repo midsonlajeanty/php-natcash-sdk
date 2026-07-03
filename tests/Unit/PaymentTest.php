@@ -32,7 +32,7 @@ test('payment request from array', function (): void {
         'timestamp' => 123456789,
     ];
 
-    $payment = PaymentRequest::fromArray($paymentArray);
+    $payment = PaymentRequest::from($paymentArray);
 
     expect($payment->getOrderId())->toBe('order123');
     expect($payment->getAmount())->toBe(100.50);
@@ -41,5 +41,5 @@ test('payment request from array', function (): void {
 });
 
 test('payment request from array missing fields throws exception', function (): void {
-    PaymentRequest::fromArray(['amount' => 10]);
+    PaymentRequest::from(['amount' => 10]);
 })->throws(InvalidPaymentRequestException::class);

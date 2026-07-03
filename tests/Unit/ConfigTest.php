@@ -37,7 +37,7 @@ test('config from array', function (): void {
         'language' => 'en',
     ];
 
-    $config = Config::fromArray($configArray);
+    $config = Config::from($configArray);
 
     expect($config->getPrivateKey())->toBe('privateKey');
     expect($config->getPartnerCode())->toBe('partnerCode');
@@ -54,7 +54,7 @@ test('config from array missing key throws exception', function (): void {
         'partnerCode' => 'partnerCode',
     ];
 
-    Config::fromArray($configArray);
+    Config::from($configArray);
 })->throws(InvalidConfigException::class);
 
 test('config from array invalid callback url throws exception', function (): void {
@@ -67,5 +67,5 @@ test('config from array invalid callback url throws exception', function (): voi
         'callbackUrl' => 'invalid-url',
     ];
 
-    Config::fromArray($configArray);
+    Config::from($configArray);
 })->throws(InvalidConfigException::class);

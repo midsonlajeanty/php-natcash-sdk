@@ -25,46 +25,29 @@ final class ResponseStatus
     public const ERR_DUPLICATE_REQUEST_ID = 102;
 
     /**
-     * status - The numeric status code
-     *
-     * @var int Response status code
-     */
-    public $status;
-
-    /**
-     * code - The status code
-     *
-     * @var string Response status code
-     */
-    public $code;
-
-    /**
-     * message - The descriptive message
-     *
-     * @var string Response message
-     */
-    public $message;
-
-    /**
-     * data - Response  data
-     *
-     * @var object Response data
-     */
-    private object $data;
-
-    /**
      * @param  int  $status  The numeric status code
      * @param  string  $code  The status code
      * @param  string  $message  The descriptive message
      * @param  object  $data  Response data
      */
-    public function __construct(int $status, string $code, string $message, object $data)
-    {
-        $this->status = $status;
-        $this->code = $code;
-        $this->message = $message;
-        $this->data = $data;
-    }
+    public function __construct(
+        /**
+         * status - The numeric status code
+         */
+        public int $status,
+        /**
+         * code - The status code
+         */
+        public string $code,
+        /**
+         * message - The descriptive message
+         */
+        public string $message,
+        /**
+         * data - Response  data
+         */
+        private readonly object $data
+    ) {}
 
     /**
      * fromResponse - Create ResponseStatus Object from Response

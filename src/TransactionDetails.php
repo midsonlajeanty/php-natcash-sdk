@@ -8,42 +8,13 @@ use Mds\Natcash\Core\ResponseStatus;
 use Mds\Natcash\Exception\ApiException;
 use Psr\Http\Message\ResponseInterface;
 
-final class TransactionDetails
+final readonly class TransactionDetails
 {
     public const RESPONSE_CODE_SUCCESS = 1;
 
     public const RESPONSE_CODE_FAILED = -1;
 
     public const RESPONSE_CODE_UNKNOWN = -3;
-
-    /**
-     * orderId - OrderId provided by your app.
-     */
-    private string $orderId;
-
-    /**
-     * transactionId - TransactionId provided by Moncash.
-     */
-    private string $transactionId;
-
-    /**
-     * amount - Amount paid by the payer.
-     *
-     * @var float Amount paid by the payer.
-     */
-    private float $amount;
-
-    /**
-     * payer - Payer's phone number.
-     */
-    private string $payer;
-
-    /**
-     * status - Status of the payment.
-     *
-     * @var bool Is Payment Successful
-     */
-    private bool $isSuccessful;
 
     /**
      * __construct - Create TransactionDetails Object
@@ -54,14 +25,19 @@ final class TransactionDetails
      * @param  string  $payer  Payer's phone number.
      * @param  bool  $isSuccessful  Is Payment Successful
      */
-    public function __construct(string $orderId, string $transactionId, float $amount, string $payer, bool $isSuccessful)
-    {
-        $this->orderId = $orderId;
-        $this->transactionId = $transactionId;
-        $this->amount = $amount;
-        $this->payer = $payer;
-        $this->isSuccessful = $isSuccessful;
-    }
+    public function __construct(
+        private string $orderId,
+        private string $transactionId,
+        /**
+         * amount - Amount paid by the payer.
+         */
+        private float $amount,
+        private string $payer,
+        /**
+         * status - Status of the payment.
+         */
+        private bool $isSuccessful
+    ) {}
 
     /**
      * fromResponse - Create TransactionDetails Object from Response

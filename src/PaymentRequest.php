@@ -9,39 +9,11 @@ use Mds\Natcash\Exception\InvalidPaymentRequestException;
 final class PaymentRequest
 {
     /**
-     * orderNumber - Order Number
-     *
-     * @var string Transaction ID (user to conciliate)
-     */
-    private string $orderNumber;
-
-    /**
-     * amount - Amount
-     *
-     * @var float Total transaction amount.
-     */
-    private float $amount;
-
-    /**
-     * msisdn - MSISDN
-     *
-     * @var ?string User phone number (Ex: 509XXXXXXXXX)
-     */
-    private ?string $msisdn;
-
-    /**
-     * skipPhoneInput - Skip Phone Input
-     *
-     * @var bool Skip the phone input on gateway
-     */
-    private bool $skipPhoneInput;
-
-    /**
      * timestamp - Timestamp
      *
      * @var int Transaction creation time. (milisecond)
      */
-    private int $timestamp;
+    private readonly int $timestamp;
 
     /**
      * requestId - Request ID
@@ -50,13 +22,29 @@ final class PaymentRequest
      */
     private string $requestId = '';
 
-    public function __construct(string $orderNumber, float $amount, ?int $timestamp = null, ?string $msisdn = null, bool $skipPhoneInput = false)
+    public function __construct(/**
+     * orderNumber - Order Number
+     *
+     * @var string Transaction ID (user to conciliate)
+     */
+        private readonly string $orderNumber, /**
+     * amount - Amount
+     *
+     * @var float Total transaction amount.
+     */
+        private readonly float $amount, ?int $timestamp = null, /**
+     * msisdn - MSISDN
+     *
+     * @var ?string User phone number (Ex: 509XXXXXXXXX)
+     */
+        private readonly ?string $msisdn = null, /**
+     * skipPhoneInput - Skip Phone Input
+     *
+     * @var bool Skip the phone input on gateway
+     */
+        private readonly bool $skipPhoneInput = false)
     {
-        $this->orderNumber = $orderNumber;
-        $this->amount = $amount;
         $this->timestamp = $timestamp ?? self::nowInMilliseconds();
-        $this->msisdn = $msisdn;
-        $this->skipPhoneInput = $skipPhoneInput;
 
         if ($this->getSkipPhoneInput() && (is_null($this->getMsisdn()) || in_array($this->getMsisdn(), ['', '0'], true))) {
             throw new InvalidPaymentRequestException('MSISDN is required when skipPhoneInput is true');
@@ -99,7 +87,7 @@ final class PaymentRequest
             $payment['timestamp'] = self::nowInMilliseconds();
         }
 
-        if (isset($payment['msisdn']) && ! (bool) (preg_match('/^509\d{8}$/', $payment['msisdn']))) {
+        if (isset($payment['msisdn']) && ! (bool) (preg_match('/^509\d{8}$/', (string) $payment['msisdn']))) {
             throw new InvalidPaymentRequestException('Invalid `msisdn` in payment request array');
         }
 
@@ -117,36 +105,7 @@ final class PaymentRequest
     }
 
     /**
-     * fromArray - Deprecated, use from()
-     *
-     * @param  array<string, mixed>  $payment  Payment request array
-     * @return PaymentRequest PaymentRequest object
-     *
-     * @deprecated Use PaymentRequest::from() instead
-     */
-    public static function fromArray(array $payment): PaymentRequest
-    {
-        @trigger_error('PaymentRequest::fromArray() is deprecated, use PaymentRequest::from() instead.', E_USER_DEPRECATED);
-
-        return self::from($payment);
-    }
-
-    /**
-     * getOrderNumber - Get Order Number
-     *
-     * @return string Transaction ID (user to conciliate)
-     *
-     * @deprecated Use getOrderId() instead
-     */
-    public function getOrderNumber(): string
-    {
-        @trigger_error('getOrderNumber() is deprecated, use getOrderId() instead.', E_USER_DEPRECATED);
-
-        return $this->orderNumber;
-    }
-
-    /**
-     * getOrderId - Get Order ID (standardized accessor, alias for getOrderNumber)
+     * getOrderId - Get Order ID
      *
      * @return string Order Id
      */

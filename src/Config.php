@@ -10,64 +10,8 @@ use Mds\Natcash\Exception\InvalidConfigException;
 /**
  * Payment Configuration
  */
-final class Config
+final readonly class Config
 {
-    /**
-     * privateKey - Private Key
-     *
-     * @var string Private Key provided by Natcash
-     */
-    private string $privateKey;
-
-    /**
-     * partnerCode - Partner Code
-     *
-     * @var string Third-Party Partner Code
-     */
-    private string $partnerCode;
-
-    /**
-     * functionCode - Function Code
-     *
-     * @var string Third-Party Function Code
-     */
-    private string $functionCode;
-
-    /**
-     * username - Username
-     *
-     * @var string Third-Party Username
-     */
-    private string $username;
-
-    /**
-     * password - Password
-     *
-     * @var string Third-Party Password
-     */
-    private string $password;
-
-    /**
-     * callbackUrl - Callback URL
-     *
-     * @var string Third-Party Callback URL
-     */
-    private string $callbackUrl;
-
-    /**
-     * enableFee - Enable Fee
-     *
-     * @var bool Enable Fee
-     */
-    private bool $enableFee;
-
-    /**
-     * language - Language
-     *
-     * @var string Language (ht/fr/en)
-     */
-    private string $language;
-
     /**
      * __construct - Create a new Config instance
      *
@@ -79,24 +23,43 @@ final class Config
      * @param  string  $callbackUrl  Third-Party Callback URL
      */
     public function __construct(
-        string $privateKey,
-        string $partnerCode,
-        string $functionCode,
-        string $username,
-        string $password,
-        string $callbackUrl,
-        bool $enableFee = true,
-        string $language = 'ht'
-    ) {
-        $this->privateKey = $privateKey;
-        $this->partnerCode = $partnerCode;
-        $this->functionCode = $functionCode;
-        $this->username = $username;
-        $this->password = $password;
-        $this->callbackUrl = $callbackUrl;
-        $this->enableFee = $enableFee;
-        $this->language = $language;
-    }
+        /**
+         * privateKey - Private Key
+         */
+        private string $privateKey,
+        /**
+         * partnerCode - Partner Code
+         */
+        private string $partnerCode,
+        /**
+         * functionCode - Function Code
+         */
+        private string $functionCode,
+        /**
+         * username - Username
+         */
+        private string $username,
+        /**
+         * password - Password
+         */
+        private string $password,
+        /**
+         * callbackUrl - Callback URL
+         */
+        private string $callbackUrl,
+        /**
+         * enableFee - Enable Fee
+         *
+         * @var bool Enable Fee
+         */
+        private bool $enableFee = true,
+        /**
+         * language - Language
+         *
+         * @var string Language (ht/fr/en)
+         */
+        private string $language = 'ht'
+    ) {}
 
     /**
      * from - Create a new Config instance from a configuration array
@@ -162,21 +125,6 @@ final class Config
             $config['enableFee'],
             $config['language']
         );
-    }
-
-    /**
-     * fromArray - Deprecated, use from()
-     *
-     * @param  array<string, mixed>  $config  Natcash configuration array
-     * @return Config Natcash config object
-     *
-     * @deprecated Use Config::from() instead
-     */
-    public static function fromArray(array $config): Config
-    {
-        @trigger_error('Config::fromArray() is deprecated, use Config::from() instead.', E_USER_DEPRECATED);
-
-        return self::from($config);
     }
 
     /**

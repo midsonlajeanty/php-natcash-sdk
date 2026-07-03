@@ -8,27 +8,22 @@ use Mds\Natcash\Core\ResponseStatus;
 use Mds\Natcash\Exception\ApiException;
 use Psr\Http\Message\ResponseInterface;
 
-final class PaymentResponse
+final readonly class PaymentResponse
 {
-    /**
-     * url - Payment URL
-     *
-     * @var string Payment URL
-     */
-    private string $url;
-
-    /**
-     * expiredAt - Expiration Time
-     *
-     * @var int Expiration Duration (in seconds)
-     */
-    private int $expiredAt;
-
-    public function __construct(string $url, int $expiredAt)
-    {
-        $this->url = $url;
-        $this->expiredAt = $expiredAt;
-    }
+    public function __construct(
+        /**
+         * url - Payment URL
+         *
+         * @var string Payment URL
+         */
+        private string $url,
+        /**
+         * expiredAt - Expiration Time
+         *
+         * @var int Expiration Duration (in seconds)
+         */
+        private int $expiredAt
+    ) {}
 
     /**
      * fromResponse - Create PaymentResponse Object from Response
@@ -60,21 +55,7 @@ final class PaymentResponse
     }
 
     /**
-     * getExpiredAt - Get Expiration Time
-     *
-     * @return int Expiration Duration (in seconds)
-     *
-     * @deprecated Use getExpiresAt() instead
-     */
-    public function getExpiredAt(): int
-    {
-        @trigger_error('getExpiredAt() is deprecated, use getExpiresAt() instead.', E_USER_DEPRECATED);
-
-        return $this->expiredAt;
-    }
-
-    /**
-     * getExpiresAt - Get Expiration Time (standardized accessor, alias for getExpiredAt)
+     * getExpiresAt - Get Expiration Time
      *
      * @return int Expiration Duration (in seconds)
      */

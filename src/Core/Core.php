@@ -15,13 +15,6 @@ use Mds\Natcash\PaymentRequest;
 abstract class Core
 {
     /**
-     * config - Config
-     *
-     * @var Config Natcash Config Object
-     */
-    private Config $config;
-
-    /**
      * client - API Client
      *
      * @var ClientInterface - Guzzle Client
@@ -34,9 +27,11 @@ abstract class Core
      * @param  Config  $config  Natcash Config Object
      * @param  bool  $debug  Debug Mode
      */
-    public function __construct(Config $config, $debug = true)
+    public function __construct(/**
+     * config - Config
+     */
+        private readonly Config $config, $debug = true)
     {
-        $this->config = $config;
         $this->client = new Client([
             'base_uri' => $debug ? Constants::SANDBOX_URL : Constants::LIVE_URL,
             'timeout' => Constants::REQUEST_TIMEOUT,
