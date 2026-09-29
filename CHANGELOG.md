@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
  
 ## [Unreleased]
 
+## [2.0.2] - 2026-09-29
+
+### Fixed
+- `TransactionDetails::fromResponse()` now parses amounts that the NatCash API returns as formatted strings. Since late August 2026 the transaction details endpoint sends `"amount": "3,162.00"` instead of a number; the plain `(float)` cast stopped at the comma and read it as `3.0`, so any amount of 1,000 or more came back truncated and consumers comparing it with the amount due rejected valid payments. Thousands separators (commas and spaces) are now stripped before the conversion; numeric amounts are unchanged.
+
 ## [2.0.1] - 2026-07-03
 
 ### Changed
