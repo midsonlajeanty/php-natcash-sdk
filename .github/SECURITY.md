@@ -31,4 +31,4 @@ You will receive an initial response within **72 hours**. Once the issue is conf
 
 ## Scope Notes
 
-This SDK handles payment credentials (private key, partner credentials) and HMAC-signed payloads to the Natcash gateway. Never commit real credentials, and never paste secrets or signed payloads into a public issue. Treat the contents of `example/constant.php` and `.env` as secrets — they are gitignored on purpose.
+This SDK handles payment credentials (private key, partner credentials) and HMAC-signed payloads to the Natcash gateway. Never commit real credentials, and never paste secrets or signed payloads into a public issue. Treat the contents of `example/constant.php` and `.env` as secrets - they are gitignored on purpose.
