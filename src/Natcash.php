@@ -12,8 +12,6 @@ use Mds\Natcash\Exception\NatcashException;
 /**
  * Natcash
  *
- * @version 2.1.0
- *
  * @license MIT
  * @author Mds <midsonlajeanty@proton.me>
  */
