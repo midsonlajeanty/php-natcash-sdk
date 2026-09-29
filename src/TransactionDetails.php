@@ -58,7 +58,7 @@ final readonly class TransactionDetails
         return new self(
             $body->data->orderNumber,
             $body->data->transId,
-            (float) ($body->data->amount),
+            self::parseAmount($body->data->amount),
             $body->data->toPhone,
             $body->data->responseCode === self::RESPONSE_CODE_SUCCESS
         );
@@ -128,5 +128,13 @@ final readonly class TransactionDetails
             'payer' => $this->payer,
             'isSuccessful' => $this->isSuccessful,
         ];
+    }
+
+    // NatCash may format the amount with thousands separators, e.g. "3,162.00".
+    private static function parseAmount(float|int|string $amount): float
+    {
+        return is_string($amount)
+            ? (float) str_replace([',', ' '], '', $amount)
+            : (float) $amount;
     }
 }

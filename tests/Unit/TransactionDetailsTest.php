@@ -45,6 +45,23 @@ test('transaction details from response', function (): void {
     expect($details->isSuccessful())->toBeTrue();
 });
 
+test('transaction details parses an amount formatted with thousands separators', function (): void {
+    $response = new Response(200, [], json_encode([
+        'status' => 0,
+        'code' => 'MSG_SUCCESS',
+        'message' => 'Success',
+        'data' => [
+            'orderNumber' => 'order123',
+            'transId' => 'trans123',
+            'amount' => '3,162.00',
+            'toPhone' => '50930000000',
+            'responseCode' => 1,
+        ],
+    ]));
+
+    expect(TransactionDetails::fromResponse($response)->getAmount())->toBe(3162.0);
+});
+
 test('transaction details from failed response throws exception', function (): void {
     $response = new Response(200, [], json_encode([
         'status' => 1,
