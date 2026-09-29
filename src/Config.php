@@ -99,17 +99,13 @@ final readonly class Config
             throw new InvalidConfigException('Invalid `callbackUrl` in configuration array');
         }
 
-        if (! isset($config['enableFee'])) {
-            $config['enableFee'] = true;
-        }
+        $config['enableFee'] ??= true;
 
         if (! filter_var($config['enableFee'], FILTER_VALIDATE_BOOLEAN) && ! is_bool($config['enableFee'])) {
             throw new InvalidConfigException('Invalid `enableFee` in configuration array');
         }
 
-        if (! isset($config['language'])) {
-            $config['language'] = 'ht';
-        }
+        $config['language'] ??= 'ht';
 
         if (! in_array($config['language'], Constants::SUPPORTED_LANGUAGES)) {
             throw new InvalidConfigException('Invalid `language` in configuration array');
