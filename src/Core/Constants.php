@@ -17,7 +17,12 @@ final class Constants
 
     public const TRANSACTION_DETAILS_URI = 'merchant/checkTransaction';
 
-    public const REQUEST_TIMEOUT = 10;
+    public const DEFAULT_TIMEOUT = 10;
+
+    public const DEFAULT_CONNECT_TIMEOUT = 10;
+
+    /** @deprecated Use DEFAULT_TIMEOUT. */
+    public const REQUEST_TIMEOUT = self::DEFAULT_TIMEOUT;
 
     // seconds
     public const ACCESS_KEY_ALGORITHM = 'sha256';

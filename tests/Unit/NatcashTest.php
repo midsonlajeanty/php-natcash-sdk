@@ -67,3 +67,10 @@ test('getTransactionDetailsByOrderId success', function (): void {
     expect($details->getPayer())->toBe('50912345678');
     expect($details->isSuccessful())->toBeTrue();
 });
+
+test('bounds the default Guzzle client with a timeout and a connect timeout', function (): void {
+    $client = (new Natcash(new Config('key', 'code', 'functionCode', 'user', 'pass', 'http://cb.url')))->getClient();
+
+    expect($client->getConfig('timeout'))->toBe(Constants::DEFAULT_TIMEOUT)
+        ->and($client->getConfig('connect_timeout'))->toBe(Constants::DEFAULT_CONNECT_TIMEOUT);
+});
