@@ -28,16 +28,16 @@ final class NatcashServiceProvider extends ServiceProvider
             $config = $repository->get('natcash', []);
 
             return new Natcash(
-                new Config(
-                    (string) ($config['private_key'] ?? ''),
-                    (string) ($config['partner_code'] ?? ''),
-                    (string) ($config['function_code'] ?? ''),
-                    (string) ($config['username'] ?? ''),
-                    (string) ($config['password'] ?? ''),
-                    (string) ($config['callback_url'] ?? ''),
-                    (bool) ($config['enable_fee'] ?? true),
-                    (string) ($config['language'] ?? 'ht'),
-                ),
+                Config::from([
+                    'privateKey' => (string) ($config['private_key'] ?? ''),
+                    'partnerCode' => (string) ($config['partner_code'] ?? ''),
+                    'functionCode' => (string) ($config['function_code'] ?? ''),
+                    'username' => (string) ($config['username'] ?? ''),
+                    'password' => (string) ($config['password'] ?? ''),
+                    'callbackUrl' => (string) ($config['callback_url'] ?? ''),
+                    'enableFee' => (bool) ($config['enable_fee'] ?? true),
+                    'language' => (string) ($config['language'] ?? 'ht'),
+                ]),
                 (bool) ($config['debug'] ?? false)
             );
         });
