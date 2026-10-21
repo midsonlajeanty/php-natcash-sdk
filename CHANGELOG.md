@@ -1,8 +1,20 @@
-
 # Change Log
 All notable changes to this project will be documented in this file.
  
  
+## [2.2.0](https://github.com/midsonlajeanty/php-natcash-sdk/compare/v2.1.0...v2.2.0) (2026-10-21)
+
+
+### Features
+
+* configure the laravel client timeouts from natcash.timeout and natcash.connect_timeout ([131d25a](https://github.com/midsonlajeanty/php-natcash-sdk/commit/131d25a5ff040b39c90fac336c6771308adfd402))
+
+
+### Bug Fixes
+
+* bound the default guzzle client with ten-second timeouts ([e85af7b](https://github.com/midsonlajeanty/php-natcash-sdk/commit/e85af7bc92563ea298dae8090c86d2000b460f1a))
+* validate natcash config when the laravel container resolves the client ([5e77f33](https://github.com/midsonlajeanty/php-natcash-sdk/commit/5e77f33f90f42a02bc24a8f56222d28d2420c64c))
+
 ## [2.1.0] - 2026-09-29
 
 ### Changed
