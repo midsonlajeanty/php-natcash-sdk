@@ -42,4 +42,19 @@ return [
     'language' => env('NATCASH_LANGUAGE', 'ht'),
 
     'debug' => (bool) env('NATCASH_DEBUG', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | HTTP timeouts
+    |--------------------------------------------------------------------------
+    |
+    | Seconds to wait for the NatCash gateway to accept the connection and to
+    | answer a request. Without them an unreachable gateway blocks each call
+    | for minutes.
+    |
+    */
+
+    'timeout' => (float) env('NATCASH_TIMEOUT', 10),
+
+    'connect_timeout' => (float) env('NATCASH_CONNECT_TIMEOUT', 10),
 ];

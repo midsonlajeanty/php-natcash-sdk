@@ -126,6 +126,9 @@ NATCASH_ENABLE_FEE=true
 NATCASH_LANGUAGE=ht
 # Sandbox gateway. Defaults to false (live); set true in local environments.
 NATCASH_DEBUG=true
+# HTTP timeouts in seconds. Both default to 10.
+NATCASH_TIMEOUT=10
+NATCASH_CONNECT_TIMEOUT=10
 ```
 
 The six credentials, including `NATCASH_CALLBACK_URL`, are required: resolving the client throws `InvalidConfigException` when one is missing or the callback URL is not a valid URL.

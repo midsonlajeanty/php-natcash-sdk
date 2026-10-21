@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Mds\Natcash\Laravel;
 
+use GuzzleHttp\Client;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Mds\Natcash\Config;
+use Mds\Natcash\Core\Constants;
 use Mds\Natcash\Natcash;
 use Mds\Natcash\NatcashInterface;
 
@@ -27,7 +29,9 @@ final class NatcashServiceProvider extends ServiceProvider
             /** @var array<string, mixed> $config */
             $config = $repository->get('natcash', []);
 
-            return new Natcash(
+            $debug = (bool) ($config['debug'] ?? false);
+
+            $natcash = new Natcash(
                 Config::from([
                     'privateKey' => (string) ($config['private_key'] ?? ''),
                     'partnerCode' => (string) ($config['partner_code'] ?? ''),
@@ -38,8 +42,16 @@ final class NatcashServiceProvider extends ServiceProvider
                     'enableFee' => (bool) ($config['enable_fee'] ?? true),
                     'language' => (string) ($config['language'] ?? 'ht'),
                 ]),
-                (bool) ($config['debug'] ?? false)
+                $debug
             );
+
+            $natcash->setClient(new Client([
+                'base_uri' => $debug ? Constants::SANDBOX_URL : Constants::LIVE_URL,
+                'timeout' => (float) ($config['timeout'] ?? Constants::DEFAULT_TIMEOUT),
+                'connect_timeout' => (float) ($config['connect_timeout'] ?? Constants::DEFAULT_CONNECT_TIMEOUT),
+            ]));
+
+            return $natcash;
         });
 
         $this->app->alias(NatcashInterface::class, 'natcash');
