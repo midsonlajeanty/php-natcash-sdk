@@ -128,6 +128,8 @@ NATCASH_LANGUAGE=ht
 NATCASH_DEBUG=true
 ```
 
+The six credentials, including `NATCASH_CALLBACK_URL`, are required: resolving the client throws `InvalidConfigException` when one is missing or the callback URL is not a valid URL.
+
 Then use the facade, or inject `NatcashInterface` (both resolve the same configured singleton):
 
 ```php
