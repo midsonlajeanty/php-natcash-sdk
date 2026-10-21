@@ -34,7 +34,8 @@ abstract class Core
     {
         $this->client = new Client([
             'base_uri' => $debug ? Constants::SANDBOX_URL : Constants::LIVE_URL,
-            'timeout' => Constants::REQUEST_TIMEOUT,
+            'timeout' => Constants::DEFAULT_TIMEOUT,
+            'connect_timeout' => Constants::DEFAULT_CONNECT_TIMEOUT,
         ]);
     }
 
